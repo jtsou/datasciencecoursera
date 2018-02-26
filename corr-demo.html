@@ -1,0 +1,16 @@
+library(stringr)
+corr <- function(directory, threshold =0){
+  ##threshold is a numeric vecotr of length 1 indicating the number of complete
+  #observed obserations required to complete the correction between nitrate and sulfate
+  
+  df <- complete(directory)
+  id <- df[df['nobs']>threshold,]$id
+  corr <- numeric()
+  
+  for (i in id){
+    read_file <-  read.csv(paste('specdata','/',str_pad(i, 3, pad = "0"),'.csv',sep=""))
+    complete_df <- read_file[complete.cases(read_file),]
+    corr <- c(corr, cor(complete_df$sulfate, complete_df$nitrate))
+  }
+  return(corr)
+}

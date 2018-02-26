@@ -1,0 +1,23 @@
+#Write a function that reads a directory full of files and reports the number
+#of completely observed cases in each data file. 
+#The function should return a data frame where the first column is the name of the file 
+#and the second column is the number of complete cases.
+#A prototype of this function follows
+
+complete <- function(directory, id=1:332){
+  ##directory is the location of csv files
+  ## id is the integer vector
+  ## return df in the form:
+  # id nobs(number of complete cases)
+  #1   117
+  #2  1041
+  nobs <- numeric()
+  location <- list.files(directory)[id]
+  read <- paste('specdata','/',location,sep="")
+  for (i in read) {
+    read_file <- read.csv(i)
+    nobs <- c(nobs, sum(complete.cases(read_file)))
+  }
+    return (data.frame(id,nobs))
+    
+}

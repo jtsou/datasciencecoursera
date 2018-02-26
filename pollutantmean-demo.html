@@ -1,0 +1,25 @@
+#Part 1
+
+#Write a function named 'pollutantmean' that calculates the mean of a pollutant 
+#(sulfate or nitrate) across a specified list of monitors. 
+#The function 'pollutantmean' takes three arguments: 'directory', 'pollutant', and 'id'. 
+#Given a vector monitor ID numbers, 'pollutantmean' reads that monitors' particulate matter data from 
+#the directory specified in the 'directory' argument and returns the mean of the pollutant across all of the monitors, 
+#ignoring any missing values coded as NA. A prototype of the function is as follows
+library(stringr)
+pollutantmean <- function (directory, pollutant, id = 1:332) {
+  #Directory is a character vector of length 1 indicating the location of csv file
+  #pollutant is a character vector of lenght 1 indicating the means of the poluutant
+  #for which we will calculate the mean; either 'sulfate' or 'nitrate'
+  #id specify the file name
+  #return mean of pollutant across all id, ignore NA
+  
+  #get a list of files in the folder
+  n = numeric()
+  file_location <- list.files(directory)
+  for (i in id){
+    read_file <-  read.csv(paste('specdata','/',str_pad(i, 3, pad = "0"),'.csv',sep=""))
+    n <- c(n,read_file[[pollutant]])
+  }
+  return (mean(n,na.rm=TRUE))
+}
